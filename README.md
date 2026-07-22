@@ -1,3 +1,8 @@
+> [!IMPORTANT]
+> bu site bazen yanıltıcı cevaplar verebilir gerçek bir analiz istiyorsanız terminal üzerinden olan ve ana proje olan
+> https://github.com/Lifantel/distroai reposunu ziyaret edin.
+
+
 # distroai — statik sinir ağı çıkarımı
 
 Bu site, PyTorch ile eğitilmiş bir MLP'yi hiçbir backend veya inference sunucusu olmadan, tamamen tarayıcıda çalıştırır. Sunucuya giden tek şey dört statik dosyadır (`index.html`, `style.css`, `app.js`, `model.js`); model çıkarımı kullanıcının cihazında yapılır.
