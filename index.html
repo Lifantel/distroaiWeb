@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>distroai — Linux Dağıtım Tavsiye Aracı</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="crt-overlay" aria-hidden="true"></div>
+
+<main class="frame">
+  <header class="titlebar">
+    <div class="titlebar-dots" aria-hidden="true">
+      <span></span><span></span><span></span>
+    </div>
+    <span class="titlebar-label">distroai — yapay sinir ağı</span>
+  </header>
+
+  <!-- BOOT SCREEN -->
+  <section id="boot" class="screen boot-screen" aria-live="polite">
+    <pre id="boot-log" class="boot-log"></pre>
+    <button id="boot-skip" class="link-btn" type="button">atla →</button>
+  </section>
+
+  <!-- INTRO -->
+  <section id="intro" class="screen intro-screen hidden">
+    <p class="eyebrow">14 soru · 10 dağıtım · sıfır telemetri</p>
+    <h1 class="hero-title">Sana en uygun<br><span class="accent">Linux dağıtımını</span><br>ağ hesaplasın.</h1>
+    <p class="hero-desc">Bir PyTorch modeli, önceden eğitilmiş katman ağırlıklarıyla tarayıcında çalışıyor. Sunucuya hiçbir şey gönderilmiyor — tüm çıkarım cihazında yapılıyor.</p>
+    <button id="start-btn" class="primary-btn" type="button">Analizi başlat</button>
+    <p class="hero-meta">doğrulama başarımı: <strong>%94.8</strong></p>
+  </section>
+
+  <!-- QUIZ -->
+  <section id="quiz" class="screen quiz-screen hidden">
+    <div class="quiz-top">
+      <span class="quiz-index"><span id="q-current">1</span>/<span id="q-total">14</span></span>
+      <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="14" aria-valuenow="0">
+        <div id="progress-fill" class="progress-fill"></div>
+      </div>
+    </div>
+
+    <h2 id="q-text" class="q-text">—</h2>
+
+    <div class="scale-row" id="scale-row">
+      <button class="scale-btn" data-val="1" type="button"><span class="scale-num">1</span><span class="scale-label">Kesinlikle hayır</span></button>
+      <button class="scale-btn" data-val="2" type="button"><span class="scale-num">2</span><span class="scale-label">Hayır</span></button>
+      <button class="scale-btn" data-val="3" type="button"><span class="scale-num">3</span><span class="scale-label">Kararsızım</span></button>
+      <button class="scale-btn" data-val="4" type="button"><span class="scale-num">4</span><span class="scale-label">Evet</span></button>
+      <button class="scale-btn" data-val="5" type="button"><span class="scale-num">5</span><span class="scale-label">Kesinlikle evet</span></button>
+    </div>
+
+    <div class="quiz-nav">
+      <button id="back-btn" class="ghost-btn" type="button" disabled>← geri</button>
+    </div>
+  </section>
+
+  <!-- RESULT -->
+  <section id="result" class="screen result-screen hidden">
+    <p class="eyebrow">analiz tamamlandı</p>
+    <h2 class="result-title">Önerilen dağıtım</h2>
+    <div class="result-top">
+      <span id="result-name" class="result-name">—</span>
+      <span id="result-pct" class="result-pct">%0</span>
+    </div>
+
+    <div id="result-bars" class="result-bars"></div>
+
+    <div class="result-actions">
+      <button id="restart-btn" class="ghost-btn" type="button">yeniden başlat</button>
+      <a href="https://www.mfgultekin.com/linux.html" target="_blank" rel="noopener" class="link-btn">Linux dağıtımları hakkında daha fazla bilgi →</a>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <span>distroai</span>
+    <a href="https://github.com/Lifantel/distroai" target="_blank" rel="noopener">kaynak kod</a>
+  </footer>
+</main>
+
+<script src="model.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
