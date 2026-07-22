@@ -33,13 +33,15 @@
 
   var SCALE_MAP = { 1: 0.0, 2: 0.25, 3: 0.5, 4: 0.75, 5: 1.0 };
 
-  var BOOT_LINES = [
-    { text: "$ ./distroai --init", cls: "" },
-    { text: "torch ağırlıkları belleğe yükleniyor ...", cls: "dim" },
-    { text: "katmanlar: 14 → 32 → 16 → 10", cls: "dim" },
-    { text: "doğrulama başarımı: %94.8", cls: "ok" },
-    { text: "sunucu bağlantısı yok, çıkarım cihazda çalışacak", cls: "dim" },
-    { text: "hazır.", cls: "ok" }
+  var BOOT_CMD = "guest@distroai:~$ ./distroai --init";
+
+  var BOOT_UNITS = [
+    { msg: "Ağırlık tensörleri belleğe yükleniyor", tag: "OK", tagClass: "ok" },
+    { msg: "Katman haritası doğrulanıyor (14→32→16→10)", tag: "OK", tagClass: "ok" },
+    { msg: "Dropout katmanları devre dışı bırakılıyor (eval modu)", tag: "OK", tagClass: "ok" },
+    { msg: "Uzak sunucu bağlantısı aranıyor", tag: "ATLANDI", tagClass: "skip" },
+    { msg: "Doğrulama setinde başarım ölçülüyor", tag: "%94.8", tagClass: "ok" },
+    { msg: "Çıkarım motoru bu cihazda başlatıldı", tag: "HAZIR", tagClass: "ok" }
   ];
 
   // ---------- Forward pass (matches DistroAI: Linear-ReLU-Linear-ReLU-Linear) ----------
@@ -108,23 +110,85 @@
   }
 
   // ---------- Boot sequence ----------
-  function runBoot() {
+  function typeText(el, text, speed, onDone) {
     var i = 0;
-    bootLog.textContent = "";
-    function step() {
-      if (i >= BOOT_LINES.length) {
-        bootTimer = setTimeout(finishBoot, 500);
-        return;
+    var cursor = document.createElement("span");
+    cursor.className = "cursor";
+    el.appendChild(cursor);
+    (function tick() {
+      if (i < text.length) {
+        cursor.insertAdjacentText("beforebegin", text[i]);
+        i++;
+        bootTimer = setTimeout(tick, speed);
+      } else {
+        cursor.remove();
+        if (onDone) onDone();
       }
-      var line = BOOT_LINES[i];
-      var span = document.createElement("div");
-      if (line.cls) span.className = line.cls;
-      span.textContent = line.text;
-      bootLog.appendChild(span);
-      i++;
-      bootTimer = setTimeout(step, 260);
+    })();
+  }
+
+  function addUnitRow(unit, onDone) {
+    var row = document.createElement("div");
+    row.className = "boot-unit";
+
+    var msg = document.createElement("span");
+    msg.className = "boot-unit-msg";
+    row.appendChild(msg);
+
+    var dots = document.createElement("span");
+    dots.className = "boot-unit-dots";
+    row.appendChild(dots);
+
+    var tag = document.createElement("span");
+    tag.className = "boot-unit-tag " + unit.tagClass;
+    row.appendChild(tag);
+
+    bootLog.appendChild(row);
+
+    typeText(msg, unit.msg, 9, function () {
+      bootTimer = setTimeout(function () {
+        tag.textContent = "[ " + unit.tag + " ]";
+        tag.classList.add("show");
+        bootTimer = setTimeout(onDone, 90);
+      }, 70);
+    });
+  }
+
+  function runBoot() {
+    bootLog.textContent = "";
+
+    var cmdRow = document.createElement("div");
+    cmdRow.className = "boot-cmd";
+    bootLog.appendChild(cmdRow);
+
+    typeText(cmdRow, BOOT_CMD, 22, function () {
+      bootTimer = setTimeout(runUnits, 260);
+    });
+
+    function runUnits() {
+      var i = 0;
+      (function next() {
+        if (i >= BOOT_UNITS.length) {
+          bootTimer = setTimeout(showPrompt, 300);
+          return;
+        }
+        addUnitRow(BOOT_UNITS[i], function () {
+          i++;
+          next();
+        });
+      })();
     }
-    step();
+
+    function showPrompt() {
+      var promptRow = document.createElement("div");
+      promptRow.className = "boot-cmd boot-prompt";
+      promptRow.textContent = "guest@distroai:~$ ";
+      var cursor = document.createElement("span");
+      cursor.className = "cursor blink";
+      promptRow.appendChild(cursor);
+      bootLog.appendChild(promptRow);
+      bootTimer = setTimeout(finishBoot, 900);
+    }
   }
 
   function finishBoot() {

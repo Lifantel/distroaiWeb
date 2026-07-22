@@ -116,6 +116,73 @@ body {
 .boot-log .dim { color: var(--text-dim); }
 .boot-log .ok { color: var(--accent); }
 
+.boot-cmd {
+  color: var(--text);
+  margin-bottom: 14px;
+}
+
+.boot-prompt {
+  margin-top: 16px;
+  margin-bottom: 0;
+  color: var(--teal);
+}
+
+.cursor {
+  display: inline-block;
+  width: 7px;
+  height: 13px;
+  background: var(--accent);
+  margin-left: 1px;
+  transform: translateY(2px);
+  animation: blink 0.9s steps(1) infinite;
+}
+
+.boot-prompt .cursor { background: var(--teal); }
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+.boot-unit {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  color: var(--text-dim);
+  margin: 3px 0;
+}
+
+.boot-unit-msg {
+  white-space: nowrap;
+  overflow: hidden;
+  color: var(--text-dim);
+}
+
+.boot-unit-dots {
+  flex: 1;
+  border-bottom: 1px dotted var(--rule);
+  transform: translateY(-4px);
+  min-width: 12px;
+}
+
+.boot-unit-tag {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  opacity: 0;
+  transform: translateY(2px);
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  white-space: nowrap;
+}
+
+.boot-unit-tag.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.boot-unit-tag.ok { color: var(--teal); }
+.boot-unit-tag.skip { color: var(--text-dim); }
+.boot-unit-tag.warn { color: var(--danger); }
+
 .link-btn {
   background: none;
   border: none;
