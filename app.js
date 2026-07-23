@@ -41,7 +41,8 @@
     { msg: "Dropout katmanları devre dışı bırakılıyor (eval modu)", tag: "OK", tagClass: "ok" },
     { msg: "Uzak sunucu bağlantısı aranıyor", tag: "ATLANDI", tagClass: "skip" },
     { msg: "Doğrulama setinde başarım ölçülüyor", tag: "%94.8", tagClass: "ok" },
-    { msg: "Çıkarım motoru bu cihazda başlatıldı", tag: "HAZIR", tagClass: "ok" }
+    { msg: "Çıkarım motoru bu cihazda başlatıldı", tag: "HAZIR", tagClass: "ok" },
+    { msg: "LINUX'A HOŞGELDİNİZ!", tag: "HAZIR", tagClass: "ok" }
   ];
 
   // ---------- Forward pass (matches DistroAI: Linear-ReLU-Linear-ReLU-Linear) ----------
